@@ -1,5 +1,5 @@
 ```sh
-  forge shell
+forge shell
   ```
   Interactive CLI starts:
   ```
