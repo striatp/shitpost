@@ -5,7 +5,7 @@ forge shell
   ```
   ForgeCLI Shell v1.0
   Type `exit` to leave.
-  forge> create bot
-  forge> deploy
+  forge> init
+  forge> lint
   forge> exit
   ```
