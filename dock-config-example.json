@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",                           // (required) Dock config format version
+  "registry": {
+    "default": "https://registry.dock.sh/",     // (required) main package source
+    "mirrors": [                                // (optional) fallback mirrors
+      "https://mirror1.dock.sh/",
+      "https://mirror2.dock.sh/"
+    ],
+    "auth": {                                   // (optional) authentication per registry
+      "https://registry.dock.sh/": {
+        "token": "ENCRYPTED_TOKEN_HERE"
+      }
+    }
+  },
+  "packages": {                                 // (required) installed packages metadata
+    "example-package": {
+      "version": "1.2.3",
+      "path": "~/.dock/modules/example-package", // install path
+      "hash": "sha256:abcdef123456"             // integrity check
+    }
+  },
+  "settings": {                                 // (optional) user preferences
+    "autoUpdate": true,                         // check for Dock updates automatically
+    "checkIntegrity": true,                     // verify package hashes
+    "parallelInstalls": 3,                      // how many installs in parallel
+    "logLevel": "info",                         // "silent" | "error" | "warn" | "info" | "debug"
+    "colors": true                              // use colored output
+  },
+  "cache": {                                    // (optional) cache policy
+    "enabled": true,
+    "maxSizeMB": 512,
+    "ttlDays": 30                               // cache expiration
+  },
+  "paths": {                                    // (optional, overrides default)
+    "bin": "~/.dock/bin",
+    "logs": "~/.dock/logs",
+    "cache": "~/.dock/cache",
+    "modules": "~/.dock/modules"
+  }
+}
