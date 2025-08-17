@@ -15,9 +15,7 @@
   "settings": {
     "autoUpdate": true,
     "checkIntegrity": true,
-    "parallelInstalls": 3,
-    "logLevel": "info",
-    "colors": true
+    "parallelInstalls": 3
   },
   "cache": {
     "enabled": true,
