@@ -1,14 +1,14 @@
 {
-  "version": "1.0.0",
+  "schema_version": "0.0.1",
   "registry": {
-    "default": "https://registry.dock.sh/",
+    "default": "https://registry.powershell-dock.com/",
     "mirrors": [
-      "https://mirror1.dock.sh/",
-      "https://mirror2.dock.sh/"
+      "https://mirror1.powershell-dock.com/",
+      "https://mirror2.powershell-dock.com/"
     ],
     "auth": {
-      "https://registry.dock.sh/": {
-        "token": "ENCRYPTED_TOKEN_HERE"
+      "https://registry.powershell-dock.com/": {
+        "token": "ENCRYPTED_TOKEN"
       }
     }
   },
