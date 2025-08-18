@@ -1,5 +1,5 @@
 {
-	"$schema": "http://localhost:3000/schema/dock.json",
+	"$schema": "http://51.68.220.27:25514/schema/dock.json",
 	"version": "0.0.1",
 	"registry": "https://registry.powershell-dock.com/",
 	"mirrors": [],
