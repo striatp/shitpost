@@ -1,5 +1,5 @@
 {
-  "$schema": "https://registry.powershell-dock.com/schema/dock.json",
+  "$schema": "https://powershell-dock.com/schema/dock.json",
   "version": "0.0.1",
   "registry": "https://registry.powershell-dock.com/",
   "mirrors": [],
@@ -10,13 +10,14 @@
     "modules": "./modules"
   },
   "settings": {
+    "cache": {
+      "enabled": true,
+      "maxSizeMB": 50,
+      "ttlDays": 30
+    },
+    "maxLogs": 10,
     "autoUpdate": true,
     "checkIntegrity": true,
     "parallelInstalls": 3
-  },
-  "cache": {
-    "enabled": true,
-    "maxSizeMB": 50,
-    "ttlDays": 30
   }
 }
