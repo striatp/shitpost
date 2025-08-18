@@ -1,31 +1,15 @@
 {
-  "schema_version": "0.0.1",
-  "registry": {
-    "default": "https://registry.powershell-dock.com/",
-    "mirrors": [
-      "https://mirror1.powershell-dock.com/",
-      "https://mirror2.powershell-dock.com/"
-    ],
-    "auth": {
-      "https://registry.powershell-dock.com/": {
-        "token": "ENCRYPTED_TOKEN"
-      }
-    }
+  "$schema": "https://registry.powershell-dock.com/schema/dock.json",
+  "version": "0.0.1",
+  "registry": "https://registry.powershell-dock.com/",
+  "mirrors": [],
+  "paths": {
+    "bin": "./bin",
+    "cache": "./cache",
+    "logs": "./logs",
+    "modules": "./modules"
   },
   "settings": {
-    "autoUpdate": true,
-    "checkIntegrity": true,
-    "parallelInstalls": 3
-  },
-  "cache": {
-    "enabled": true,
-    "maxSizeMB": 512,
-    "ttlDays": 30
-  },
-  "paths": {
-    "bin": "~/.dock/bin",
-    "logs": "~/.dock/logs",
-    "cache": "~/.dock/cache",
-    "modules": "~/.dock/modules"
+    "autoUpdate": true
   }
 }
