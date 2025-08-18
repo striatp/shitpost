@@ -12,8 +12,7 @@
   "settings": {
     "autoUpdate": true,
     "checkIntegrity": true,
-    "parallelInstalls": 3,
-    "telemetry": false
+    "parallelInstalls": 3
   },
   "cache": {
     "enabled": true,
