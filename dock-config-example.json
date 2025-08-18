@@ -10,6 +10,14 @@
     "modules": "./modules"
   },
   "settings": {
-    "autoUpdate": true
+    "autoUpdate": true,
+    "checkIntegrity": true,
+    "parallelInstalls": 3,
+    "telemetry": false
+  },
+  "cache": {
+    "enabled": true,
+    "maxSizeMB": 50,
+    "ttlDays": 30
   }
 }
