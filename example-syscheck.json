@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Syscheck Configuration",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "description": { "type": "string" },
+        "author": { "type": "string" },
+        "repository": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "type": { "type": "string", "enum": ["git","github","bitbucket","gitlab"] }
+          },
+          "required": ["url","type"]
+        },
+        "license": { "type": "string" },
+        "config_version": { "type": "string" },
+        "last_updated": { "type": "string", "format": "date-time" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "contributors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "email": { "type": "string", "format": "email" },
+              "github": { "type": "string" },
+              "role": { "type": "string" }
+            },
+            "required": ["name"]
+          }
+        },
+        "deployment_targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["docker","kubernetes","serverless","local","cloud"] },
+              "url": { "type": "string", "format": "uri" },
+              "region": { "type": "string" }
+            },
+            "required": ["type"]
+          }
+        },
+        "recommended_node_versions": { "type": "array", "items": { "type": "string" } },
+        "minimum_required_versions": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "ci_cd_support": { "type": "array", "items": { "type": "string", "enum": ["github-actions","gitlab-ci","jenkins","circleci"] } }
+      },
+      "required": ["name","version","author","repository","config_version","last_updated"]
+    },
+    "system": {
+      "type": "object",
+      "properties": {
+        "os": { "type": "array", "items": { "type": "string" } },
+        "architecture": { "type": "array", "items": { "type": "string" } },
+        "cpu": {
+          "type": "object",
+          "properties": {
+            "min_cores": { "type": "number" },
+            "max_cores": { "type": "number" },
+            "min_speed_ghz": { "type": "number" },
+            "recommended_speed_ghz": { "type": "number" }
+          }
+        },
+        "gpu": {
+          "type": "object",
+          "properties": {
+            "min_vram_gb": { "type": "number" },
+            "recommended_vram_gb": { "type": "number" },
+            "model_whitelist": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "ram": {
+          "type": "object",
+          "properties": {
+            "min_gb": { "type": "number" },
+            "recommended_gb": { "type": "number" }
+          }
+        },
+        "disk": {
+          "type": "object",
+          "properties": {
+            "min_free_gb": { "type": "number" },
+            "recommended_free_gb": { "type": "number" },
+            "paths": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": { "type": "string" },
+                  "min_free_gb": { "type": "number" },
+                  "recommended_free_gb": { "type": "number" }
+                },
+                "required": ["path"]
+              }
+            }
+          }
+        },
+        "virtualization": {
+          "type": "object",
+          "properties": {
+            "must_support_virtualization": { "type": "boolean" },
+            "type": { "type": "string", "enum": ["hyper-v","vmware","virtualbox"] }
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "version": { "type": "string" },
+          "engines_strict": { "type": "boolean" },
+          "recommended_version": { "type": "string" },
+          "allow_prerelease": { "type": "boolean" },
+          "check_path": { "type": "boolean" }
+        },
+        "required": ["version"]
+      }
+    },
+    "environment_variables": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "required": { "type": "boolean" },
+          "description": { "type": "string" },
+          "default": { "type": "string" },
+          "regex": { "type": "string" }
+        },
+        "required": ["required","description"]
+      }
+    },
+    "commands": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "engines_strict": { "type": "boolean" },
+          "required": { "type": "boolean" },
+          "alternatives": { "type": "array", "items": { "type": "string" } },
+          "min_compose_version": { "type": "string" }
+        },
+        "required": ["name","version"]
+      }
+    }
+  },
+  "required": ["metadata"]
+}
