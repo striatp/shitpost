@@ -717,7 +717,7 @@ Naming is one of the hardest and most important aspects of programming. Good nam
 - Lifetimes: Single lowercase letter - `'a`, `'static`
 - Type Parameters: Single uppercase letter or PascalCase - `T`, `E`, `Key`, `Value`
 
-**C++ Naming:**
+**C/C++ Naming:**
 - Variables and Functions: camelCase or snake_case (choose one consistently)
 - Classes and Structs: PascalCase - `UserService`, `HTTPClient`
 - Member Variables: Suffix with underscore - `userName_`, `count_`
