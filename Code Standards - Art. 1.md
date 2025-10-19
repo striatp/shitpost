@@ -1268,10 +1268,7 @@ Is this a hotfix or release branch?
 └─ No → Does the branch have clean, logical commits?
     ├─ Yes → Use Rebase and Merge
     └─ No → Use Squash and Merge (most common)
-
-# Octovel Developer & Code Standards (Continued)
-
-**Version 2.0 — Effective October 2025**
+```
 
 ---
 
