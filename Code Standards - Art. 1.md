@@ -12,22 +12,22 @@ This comprehensive guide defines the coding standards, repository practices, dev
 2. [Language & Technology Standards](#2-language--technology-standards)
 3. [Repository Organization](#3-repository-organization)
 4. [Code Style & Formatting](#4-code-style--formatting)
-5. [Version Control & Git Workflow](#5️⃣-version-control--git-workflow)
-6. [Code Review & Collaboration](#6️⃣-code-review--collaboration)
-7. [Testing & Quality Assurance](#7️⃣-testing--quality-assurance)
-8. [Documentation Standards](#8️⃣-documentation-standards)
-9. [Security & Privacy](#9️⃣-security--privacy)
-10. [Performance & Optimization](#🔟-performance--optimization)
-11. [Error Handling & Logging](#1️⃣1️⃣-error-handling--logging)
-12. [API Design & Integration](#1️⃣2️⃣-api-design--integration)
-13. [Database & Data Management](#1️⃣3️⃣-database--data-management)
-14. [DevOps & CI/CD](#1️⃣4️⃣-devops--cicd)
-15. [Containerization & Deployment](#1️⃣5️⃣-containerization--deployment)
-16. [Monitoring & Observability](#1️⃣6️⃣-monitoring--observability)
-17. [Dependency Management](#1️⃣7️⃣-dependency-management)
-18. [Accessibility & Internationalization](#1️⃣8️⃣-accessibility--internationalization)
-19. [Open Source Contributions](#1️⃣9️⃣-open-source-contributions)
-20. [Professional Development & Knowledge Sharing](#2️⃣0️⃣-professional-development--knowledge-sharing)
+5. [Version Control & Git Workflow](#5-version-control--git-workflow)
+6. [Code Review & Collaboration](#6-code-review--collaboration)
+7. [Testing & Quality Assurance](#7-testing--quality-assurance)
+8. [Documentation Standards](#8-documentation-standards)
+9. [Security & Privacy](#9-security--privacy)
+10. [Performance & Optimization](#10-performance--optimization)
+11. [Error Handling & Logging](#11-error-handling--logging)
+12. [API Design & Integration](#12-api-design--integration)
+13. [Database & Data Management](#13-database--data-management)
+14. [DevOps & CI/CD](#14-devops--cicd)
+15. [Containerization & Deployment](#15-containerization--deployment)
+16. [Monitoring & Observability](#16-monitoring--observability)
+17. [Dependency Management](#17-dependency-management)
+18. [Accessibility & Internationalization](#18-accessibility--internationalization)
+19. [Open Source Contributions](#19-open-source-contributions)
+20. [Professional Development & Knowledge Sharing](#20-professional-development--knowledge-sharing)
 
 ---
 
@@ -163,7 +163,7 @@ Frameworks significantly impact development velocity, code quality, and long-ter
 These frameworks and libraries have been vetted and approved for use across Octovel projects:
 
 **TypeScript Ecosystem:**
-- **Backend**: Express (mature, flexible), Fastify (high performance), Nest.js (enterprise patterns)
+- **Backend**: Express/Hono (mature, flexible), Fastify (high performance), Nest.js (enterprise patterns)
 - **Frontend**: React (component library), Next.js (full-stack framework), Vite (build tool)
 - **Testing**: Vitest (fast, modern), Jest (mature, comprehensive), Playwright (E2E)
 - **Utilities**: Lodash (functional utilities), Zod (schema validation), date-fns (date manipulation)
@@ -194,7 +194,7 @@ These frameworks and libraries have been vetted and approved for use across Octo
 - **IaC**: Terraform (cloud infrastructure), Ansible (configuration management)
 - **Monitoring**: Prometheus + Grafana (metrics), ELK Stack (logging), Jaeger (tracing)
 
-Keep in my that our products must be as dependency-less as possible.
+Keep in mind that our products must be as dependency-less as possible.
 
 ### 2.5 Technology Evaluation Process
 Introducing new technologies requires formal evaluation to prevent ecosystem fragmentation:
@@ -258,7 +258,7 @@ Each language has idiomatic patterns and anti-patterns that significantly impact
 
 **Rust Best Practices:**
 - Follow Rust API guidelines for public interfaces
-- Use Result for recoverable errors, panic only for unrecoverable bugs
+- Use Err for recoverable errors, panic only for unrecoverable bugs
 - Prefer owned types over references in public APIs for simplicity
 - Leverage the type system to enforce invariants at compile time
 - Use builder patterns for complex object construction
@@ -290,6 +290,7 @@ Each language has idiomatic patterns and anti-patterns that significantly impact
 - Handle errors explicitly; avoid panic except for programmer errors
 - Design for testability with dependency injection via interfaces
 - Use channels and goroutines idiomatically; avoid shared mutable state
+
 Keep packages focused and cohesive with clear responsibilities
 
 ## 3 Repository Organization
@@ -574,3 +575,696 @@ Every repository must include a comprehensive README.md that serves as the entry
 - Installation instructions that don't work
 - Missing troubleshooting section for common issues
 - No examples or usage guidance
+
+## 4 Code Style & Formatting
+
+### 4.1 Automated Formatting Philosophy
+
+Code formatting is not a matter of personal preference, it's a solved problem that tools handle better than humans. We use automated formatters universally to eliminate formatting debates, ensure consistency, and save code review time for substantive discussions.
+
+**Formatting Principles:**
+- Formatters run automatically on save in IDEs
+- Pre-commit hooks prevent unformatted code from being committed
+- CI pipelines reject improperly formatted code
+- No manual formatting adjustments except in rare documented cases
+- Format entire files, never partial formatting
+- Formatting rules are configured once and rarely changed
+
+**Benefits of Automated Formatting:**
+- Zero time spent on formatting debates
+- Diffs show logical changes, not whitespace changes
+- Consistent style across entire codebase regardless of author
+- New developers productive immediately without learning style preferences
+- Refactoring tools work more reliably with consistent formatting
+
+
+| Language | Primary Formatter | Configuration File | Line Length | Indentation |
+| -------- | ----------------- | ------------------| ----------- | ---------- |
+| TypeScript/JavaScript | Prettier | .prettierrc.json | 100 chars | 2 spaces |
+| Python | Black + isort | pyproject.toml | 100 chars | 4 spaces (PEP 8) |
+| Rust | rustfmt | rustfmt.toml | 100 chars | 4 spaces |
+| C++ | clang-format | .clang-format | 100 chars | 2 spaces |
+| C# | dotnet format | .editorconfig | 120 chars | 4 spaces |
+| Go | gofmt (built-in) | None (standard) | No limit | Tabs |
+
+**Why Line Length Matters:**
+- The 100-character line limit strikes a balance between modern wide screens and practical considerations:
+- Readable side-by-side diffs in code reviews
+- Comfortable on laptop screens without horizontal scrolling
+- Multiple editor panes visible simultaneously
+Encourages breaking complex expressions into named variables
+
+## 4.3 Linting Standards
+
+While formatters handle code appearance, linters catch bugs, enforce best practices, and identify potential issues:
+
+**Linter Responsibilities:**
+- Detect unused variables and imports
+- Identify potential runtime errors
+- Enforce naming conventions
+- Flag overly complex code
+Check for security vulnerabilities
+- Ensure type safety
+- Verify documentation completeness
+
+**Language-Specific Linters:**
+
+**TypeScript/JavaScript:**
+- ESLint with TypeScript-specific rules
+- Rules for async/await correctness
+- Prohibition of console.log in production code
+- Enforcement of explicit return types
+- Detection of floating promises
+- Import organization rules
+
+**Python:**
+- Pylint for code quality
+- Flake8 for style enforcement
+- mypy for static type checking
+- bandit for security vulnerability detection
+- pydocstyle for documentation standards
+
+**Rust:**
+- Clippy for idiomatic Rust patterns
+- Detection of common mistakes
+- Performance optimization suggestions
+- API guideline compliance
+Unsafe code warnings
+
+**C++:**
+- clang-tidy with modernize checks
+- Detection of memory leaks and undefined behavior
+- Suggestion of modern C++ alternatives
+- Performance anti-pattern detection
+- Thread safety analysis
+
+**C#:**
+- StyleCop Analyzers for style consistency
+- Microsoft.CodeAnalysis for best practices
+- Security analyzers for vulnerability detection
+- Performance analyzers for optimization opportunities
+
+**Go:**
+- golangci-lint aggregating multiple linters
+- go vet for correctness issues
+- staticcheck for bugs and performance
+- errcheck for unhandled errors
+
+## 4.4 Comprehensive Naming Conventions
+
+Naming is one of the hardest and most important aspects of programming. Good names communicate intent, scope, and purpose without requiring documentation.
+
+**Universal Naming Principles:**
+
+**Be Descriptive**: Names should clearly communicate what something represents or does. Avoid abbreviations unless universally understood. `userAuthenticationService` is better than `usrAuthSvc`.
+
+**Be Consistent**: Use the same terminology throughout your codebase. If you call something a "user" in one place, don't call it a "person" or "account" elsewhere without good reason.
+
+**Be Appropriate to Scope**: Short names are acceptable for small scopes (loop variables like i for index), but larger scopes require more descriptive names.
+
+**Avoid Meaningless Names**: Names like `data`, `info`, `manager`, `handler` without context provide no information. `userData` is barely better than data, but `authenticatedUser` tells a story.
+
+**Use Positive Boolean Names**: Prefer `isEnabled` over `isDisabled`, `hasAccess` over `lacksAccess`. Positive logic is easier to reason about.
+
+**Avoid Negated Booleans**: `if (!isNotReady)` is confusing. Use `isReady` instead.
+
+**Language-Specific Naming Standards:**
+
+**TypeScript/JavaScript Naming:**
+- Variables and Functions: camelCase - `userName, calculateTotal, fetchUserData`
+- Classes and Interfaces: PascalCase `- UserService, HttpClient, RequestOptions`
+- Types: PascalCase - `UserId, RequestHandler, ErrorCode`
+- Constants: UPPER_SNAKE_CASE - `MAX_RETRY_COUNT, API_BASE_URL, DEFAULT_TIMEOUT`
+- Private Fields: Prefix with # or `private` - `#secretKey, #internalState, private _hooks`
+- Boolean Variables: Prefix with `is`, `has`, `should`, `can` - `isAuthenticated`, `hasPermission`
+- Enums: PascalCase for name, `UPPER_SNAKE_CASE` for values
+- Acronyms: Treat as words - `HTTPClient` not `HttpClient`, `userID` not `userId`
+
+**Python Naming:**
+- Variables and Functions: snake_case - `user_name`, `calculate_total`, `fetch_user_data`
+- Classes: PascalCase - UserService, HttpClient, RequestOptions`
+- Constants: UPPER_SNAKE_CASE - `MAX_RETRY_COUNT`, `API_BASE_URL`
+- Private Attributes: Prefix with underscore - `_internal_state`, `_secret_key`
+- Protected Attributes: Single underscore - `_protected_method`
+- Name Mangling: Double underscore for strong privacy - `__private_attribute`
+- Magic Methods: Double underscore both sides - `__init__`,` __str__`
+
+**Rust Naming:**
+- Variables and Functions: snake_case - `user_name`, `calculate_total`
+- Structs and Enums: PascalCase - `UserService`, `HTTPClient`
+- Traits: PascalCase - `Serializable`, `Clone`, `Display`
+- Constants and Statics: UPPER_SNAKE_CASE - `MAX_RETRY_COUNT`, `API_BASE_URL`
+- Lifetimes: Single lowercase letter - `'a`, `'static`
+- Type Parameters: Single uppercase letter or PascalCase - `T`, `E`, `Key`, `Value`
+
+**C++ Naming:**
+- Variables and Functions: camelCase or snake_case (choose one consistently)
+- Classes and Structs: PascalCase - `UserService`, `HTTPClient`
+- Member Variables: Suffix with underscore - `userName_`, `count_`
+- Constants and Macros: UPPER_SNAKE_CASE - `MAX_RETRY_COUNT`
+- Namespaces: lowercase or snake_case - `octovel`, `octovel::api`
+- Template Parameters: PascalCase - `typename T`, `typename Key`
+
+**C# Naming:**
+- Variables and Parameters: camelCase - `userName`, `itemCount`
+- Classes and Interfaces: PascalCase - `UserService`, `IRepository`
+- Properties and Methods: PascalCase - `UserName`, `CalculateTotal`
+- Private Fields: camelCase with underscore prefix -` _userName`, `_itemCount`
+- Constants: PascalCase - `MaxRetryCount`, `DefaultTimeout`
+- Events: PascalCase - `UserLoggedIn`, `DataReceived`
+- Async Methods: Suffix with Async - `GetUserAsync`, `ProcessDataAsync`
+
+**Go Naming:**
+- Variables and Functions: camelCase or mixedCaps - `userName, calculateTotal`
+- Exported Names: PascalCase - `UserService`, `HTTPClient`
+- Unexported Names: camelCase - `userService`, `httpClient`
+- Constants: PascalCase or camelCase - `MaxRetryCount` or `maxRetryCount`
+- Interfaces: Often noun without I prefix - Reader, `Writer`, `Closer`
+- Interface with Single Method: Often -er suffix - `Stringer`, `Handler`
+
+**Domain-Specific Naming Patterns:**
+
+**API Endpoints:** Use RESTful conventions with plural nouns for collections:
+- `GET /users` - List users
+- `GET /users/:id` - Get specific user
+- `POST /users` - Create user
+- `PUT /users/:id` - Update user
+- `DELETE /users/:id` - Delete user
+
+Database Tables and Columns: Use snake_case consistently across all database systems:
+- Tables: Plural nouns - `users`, `order_items`, `authentication_tokens`
+- Columns: Descriptive names - `created_at`, `updated_at`, `email_address`
+- Foreign Keys: `<table>_id` pattern - `user_id`, `product_id`
+- Junction Tables: Combined names - `users_roles`, `products_categories`
+
+Test Names: Descriptive sentences explaining what is tested:
+- `test_user_creation_with_valid_email`
+- `test_authentication_fails_with_invalid_password`
+- `should_return_404_when_user_not_found`
+- `it_should_calculate_total_with_discount_applied`
+
+Event Names: Past tense describing what happened:
+- `UserCreated, OrderShipped, PaymentProcessed`
+- `user_created, order_shipped, payment_processed`
+
+Command Names: Imperative verbs describing actions:
+- `CreateUser, ProcessOrder, SendEmail`
+- `create_user, process_order, send_email`
+
+## 4.5 Code Organization and Structure
+
+Well-organized code reduces cognitive load and makes maintenance easier. These principles apply across all languages with appropriate adaptations.
+
+**Function Length Guidelines:**
+
+Functions should be focused, single-purpose units that fit on a single screen without scrolling.
+
+| Metric | Target | Maximum | Action at Maximum |
+| ------ | ------ | ------- | ----------------- |
+| Lines of Code | 20-30  | 50 | Extract helper functions |
+| Parameters | 2-3 | 4-5 | Use parameter objects | 
+| Cyclomatic Complexity | 5-8 | 10 | Break into smaller functions |
+| Nesting Depth | 1-2 | 3 | Use early returns |
+
+**Why Short Functions Matter:**
+- Easier to understand at a glance
+- Easier to test in isolation
+- Easier to reuse in different contexts
+- Easier to optimize or refactor
+- More descriptive names possible
+- Better stack traces in errors
+
+**When to Extract a Function:**
+- Logic is repeated more than once
+- A section has a distinct purpose that can be named
+- Function exceeds 50 lines
+- Function has more than 3 levels of nesting
+- You need comments to explain what a section does
+- You're using the word "and" to describe what the function does
+
+**File Length Guidelines:**
+
+Files should contain related functionality without becoming unwieldy.
+
+| File Type | Target | Maximum Lines | Action at Maximum |
+| ------ | ------ | ------- | ----------------- |
+| Implementation | 200-300  | 500 | Split into multiple files |
+| Test File | 300-400 | 600 | Split by test category | 
+| Configuration | 50-100 | 200 | Split by environment |
+| Interface/Types | 100-200 | 300 | Group related types |
+
+**When to Split a File:**
+- File exceeds maximum line count
+- File contains multiple unrelated responsibilities
+- Scrolling is required to understand file contents
+- File contains multiple classes or modules
+- Import list is excessively long (more than 20 imports)
+- Team members consistently struggle to find code in the file
+
+**Import Organization:**
+**Organize imports consistently for readability and to minimize merge conflicts:**
+
+**Import Order (from top to bottom):**
+1. Standard library / language built-ins
+2. Third-party framework imports (React, Express, etc.)
+3. Third-party package imports
+4. Internal shared package imports (monorepo packages)
+5. Internal application imports (absolute paths)
+6. Relative imports from parent directories
+7. Relative imports from current directory
+8. Type-only imports (TypeScript)
+
+**Import Grouping Rules:**
+- Separate each group with a blank line
+- Within each group, sort alphabetically
+- Avoid wildcard imports except for common namespaces
+- Use named imports preferentially over default imports
+- Keep import statements on single lines when possible
+- Use path aliases to avoid deep relative paths
+
+**Cyclomatic Complexity Management:**
+Cyclomatic complexity measures the number of independent paths through code. High complexity correlates with defect density and testing difficulty.
+
+**Complexity Thresholds:**
+|Complexity|Rating|Action Required|
+|-|-|-|
+|1-5|Simple|None, ideal complexity|
+|6-10|Moderate|Acceptable, monitor growth|
+|11-15|Complex|Refactor when possible|
+|16-20|Very Complex|Refactor immediately|
+|21+|Unmaintainable|Block PR, mandatory refactor|
+
+**Reducing Complexity:**
+- Extract conditions into named boolean variables
+- Use early returns to avoid nested if statements
+- Replace complex conditionals with polymorphism or strategy pattern
+- Extract complex branches into separate functions
+- Use lookup tables instead of long switch statements
+- Simplify boolean logic with De Morgan's laws
+
+## 4.6 Comment Standards and Philosophy
+Comments are a necessary evil—they're needed when code cannot be self-explanatory, but they're also a maintenance burden that can become outdated and misleading.
+
+**The Comment Hierarchy (in order of preference):**
+1. No Comment Needed**: Code is self-explanatory through good naming and structure. This is the ideal.
+2. Extract to Named Function**: Instead of commenting what a block does, extract it to a function with a descriptive name.
+3. Meaningful Variable Names**: Instead of commenting what a value represents, store it in a descriptively-named variable.
+4. Write the Comment**: When the above approaches are insufficient, write a clear comment explaining why, not what.
+
+**When Comments Are Required:**
+- **Complex Algorithms**: When implementing non-obvious algorithms, explain the approach and link to references.
+- **Business Logic Quirks**: When business rules are unintuitive, explain the reasoning and requirements source.
+- **Performance Optimizations**: When code is deliberately non-obvious for performance, explain the optimization and benchmark results.
+- **Workarounds**: When working around bugs or limitations in dependencies, explain the issue and link to bug reports.
+- **Regular Expressions**: Always explain what a regex matches with examples.
+- **Public APIs**: Document all public interfaces with purpose, parameters, return values, and examples.
+- **Concurrency**: Explain synchronization strategy, lock ordering, and race condition prevention.
+- **Security Sensitive Code**: Document security assumptions, threat model, and validation requirements.
+- **When Comments Are Harmful**:
+- **Stating the Obvious**: Never comment what code does when it's already clear from reading it.
+- **Outdated Information**: Comments that contradict the code are worse than no comments.
+- **Commented-Out Code**: Use version control; never commit commented code.
+- **Attribution Comments**: Version control shows who wrote code; author comments are redundant.
+- **Divider Comments**: Use file organization and functions instead of ASCII art dividers.
+- **TODO Comments Without Context**: Incomplete TODOs without ticket numbers or explanations are noise.
+
+**Comment Best Practices:**
+**Documentation Comments (JSDoc, docstrings, etc.):**
+Required for all public APIs
+Include brief description, parameters, return value, exceptions
+Provide usage examples for complex APIs
+Link to related documentation or specifications
+Keep synchronized with code changes
+
+**Inline Comments:**
+- Explain why, not what
+- Place comments before the code they explain
+- Keep comments short and focused
+- Use proper grammar and punctuation
+- Update or remove when code changes
+
+**TODO Comments:**
+- Include assignee or team name
+- Include ticket number or issue link
+- Provide enough context to understand without searching
+- Set realistic priority or deadline if critical
+- Format: `TODO(username): Description (TICKET-123)`
+
+**FIXME Comments:**
+- For known bugs or issues that need addressing
+- Include reproduction steps if non-obvious
+- Link to bug report or issue
+- Format: `FIXME(username): Description (BUG-456)`
+
+**HACK Comments:**
+- For non-ideal solutions that work but need improvement
+- Explain why the hack was necessary
+- Describe the proper solution for future implementation
+- Format: `HACK(username): Description - proper solution would be X`
+
+## 4.7 Code Review Focus Areas
+Since formatting is automated, code reviews focus on substantive issues:
+
+**Logic and Correctness:**
+- Does the code do what it's supposed to do?
+- Are all edge cases handled?
+- Is error handling appropriate and complete?
+- Are there potential race conditions or concurrency issues?
+
+**Design and Architecture:**
+- Is the code in the right place architecturally?
+- Does it follow established patterns in the codebase?
+- Is it appropriately abstracted without over-engineering?
+- Does it introduce unnecessary coupling?
+
+**Performance Implications:**
+- Are there obvious performance issues (N+1 queries, etc.)?
+- Is the algorithm choice appropriate for expected data sizes?
+- Are resources properly managed (connections, memory, file handles)?
+
+**Security Considerations:**
+- Is user input properly validated and sanitized?
+- Are authentication and authorization correct?
+- Are secrets properly protected?
+- Is sensitive data logged or exposed inappropriately?
+
+**Testing Coverage:**
+- Are there tests for new functionality?
+- Do tests cover edge cases and error conditions?
+- Are tests clear and maintainable?
+- Can the code be tested more easily with different design?
+
+**Maintainability:**
+- Will this code be understandable in six months?
+- Is complexity justified by requirements?
+- Is there adequate documentation?
+- Are naming and organization clear?
+
+### 5 Version Control & Git Workflow
+
+## 5.1 Branching Strategy Philosophy
+
+Our branching strategy balances stability with development velocity. It must support continuous integration, enable safe experimentation, facilitate code review, and provide clear release management.
+
+**Core Branch Structure:**
+
+- **stable**: The production branch containing only release-ready code. Every commit on stable represents a deployed or deployable version. Tagged with semantic version numbers. Protected with strict merge  requirements. Deployments to production only occur from this branch.
+- **canary**: The primary integration branch where all development converges. Acts as the staging ground before promotion to stable. Should always be in a deployable state, though may contain experimental features behind feature flags. CI/CD runs comprehensive test suites on every commit. Protected branch requiring pull request reviews.
+- **feature/x**: Short-lived branches for developing new features. Branch from canary, merge back to canary when complete. Should be small enough to complete within a few days to a week. Regularly rebased on canary to minimize merge conflicts. Deleted after successful merge.
+- **fix/x**: Bug fix branches for addressing issues in current development. Follow same workflow as feature branches. May be cherry-picked to release branches if fixing production issues.
+- **hotfix/x**: Emergency branches for critical production issues. Branch from stable, merge to both stable and canary. Deployed immediately to production after testing. Higher scrutiny in review process due to direct production impact.
+- **release/x**: Optional branches for release preparation and stabilization. Branch from canary when approaching release. Only bug fixes allowed, no new features. Merged to stable when ready, then back-merged to canary.
+
+**Development Flow:**
+```
+stable  ─────●───────────────────●─────────────●──────
+            (v1.0)              (v1.1)       (v2.0)
+                                   ↑            ↑
+canary  ───●────●────●────●────●───┼────●───●───┼──●──
+          ╱    ╱    ╱    ╱    ╱    │   ╱   ╱    │  
+feat/A ──●────●────●    /    /     │  ╱   ╱     │
+                     ╲ /    /      │ ╱   ╱      │
+feat/B ───────────────●────●───────┼●───●       │
+                                   │   /        │
+fix/C ─────────────────────────────┼●─●         │
+                                   │            │
+release/v1.1 ────────────────────●─●            │
+                                                │
+release/v2.0 ───────────────────────────────────●
+```
+
+**Hotfix Flow:**
+```
+stable  ─────●───────────●───────────
+            (v1.0)        ↑          
+                         ╱ ╲         
+hotfix/auth ────────────●   ╲        
+                             ↓       
+canary  ─────────────────────●───────
+```
+
+### 5.3 Commit Message Standards
+
+Commit messages are permanent documentation of why changes were made. They're critical for understanding code history, debugging issues, and generating changelogs.
+
+**Conventional Commits Format:**
+
+Every commit message follows this structure:
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Commit Types and Their Meanings:**
+
+
+| Type | Purpose | When to Use | Semantic Versioning Impact | Emoji |
+|------|---------|-------------|---------------------------| ---- |
+| `feat` | New feature | Adding functionality users can see or use | MINOR version bump | ✨ | 
+| `fix` | Bug fix | Correcting incorrect behavior | PATCH version bump | 🐛 |
+| `docs` | Documentation | README, API docs, code comments | No version change | 📚 |
+| `style` | Formatting | Code style, whitespace, missing semicolons | No version change | 💎 |
+| `refactor` | Code restructuring | Internal changes without behavioral changes | No version change | 📦 |
+| `perf` | Performance improvement | Optimizations that maintain behavior | PATCH version bump | 🚀 |
+| `test` | Test changes | Adding or modifying tests | No version change | 🚨 |
+| `build` | Build system | Changes to build process or dependencies | No version change | 🛠 |
+| `ci` | CI/CD changes | GitHub Actions, GitLab CI, etc. | No version change | ⚙️ |
+| `chore` | Maintenance | Routine tasks, dependency updates | No version change | ♻️ |
+| `revert` | Revert previous commit | Undoing a previous change | Depends on reverted commit | 🗑 |
+
+**Scope Guidelines:**
+
+Scope indicates what part of the codebase is affected. Choose scopes that are meaningful to your project:
+- Module names: `auth`, `api`, `database`, `ui`
+- Feature areas: `login`, `checkout`, `admin`
+- Components: `user-service`, `payment-gateway`
+
+**Subject Line Rules:**
+- Use imperative mood: "add" not "added" or "adds"
+- Don't capitalize first letter (except for proper nouns)
+- No period at the end
+- Maximum 72 characters
+- Be specific but concise
+
+**Body Guidelines:**
+- Wrap at 72 characters
+- Explain what and why, not how (code shows how)
+- Provide context for the change
+- Explain any non-obvious decisions
+- Reference related issues or discussions
+
+**Footer Conventions:**
+- `Closes #123` or `Fixes #456` - Link to issues
+- `BREAKING CHANGE:` - Describe incompatible changes
+- `Refs #789` - Reference related issues without closing
+- `Co-authored-by:` - Credit collaborators
+
+**Commit Message Examples:**
+
+**Good Examples:**
+```
+feat(auth): add OAuth2 Google authentication ✨
+
+Implements Google OAuth2 flow with PKCE for enhanced security.
+Users can now sign in using their Google accounts, which will
+automatically create a user profile with verified email.
+
+Token refresh is handled automatically with 7-day refresh tokens.
+Access tokens expire after 1 hour for security.
+
+Closes #234
+```
+```
+fix(api): prevent race condition in concurrent user creation 🐛
+
+Added database-level unique constraint on email column and wrapped
+creation in transaction. Previously, simultaneous signup requests
+with the same email could both succeed, creating duplicate accounts.
+
+Now properly returns 409 Conflict on duplicate email attempts.
+
+Fixes #456
+```
+```
+perf(db): optimize user search with composite index 🚀
+
+Added composite index on (email, created_at) columns. Reduces
+search query time from ~2 seconds to ~50ms for databases with
+1M+ users.
+
+Benchmark results:
+- Small DB (< 10k users): 15ms → 12ms (marginal improvement)
+- Medium DB (100k users): 250ms → 45ms (5.5x faster)
+- Large DB (1M+ users): 2100ms → 48ms (43x faster)
+```
+```
+refactor(services): extract email validation to shared utility 🗑
+
+Email validation logic was duplicated across user-service and
+contact-service with slight variations causing inconsistency.
+
+Extracted to shared email-validator utility with comprehensive
+test coverage. Both services now use the same validation rules.
+
+No behavioral changes for end users.
+```
+```
+docs(api): update authentication endpoint examples 📚
+
+- Fixed incorrect request body format in /auth/login example
+- Added missing required fields to /auth/register
+- Updated response codes to match current implementation
+- Added rate limiting information
+
+Refs #789
+```
+
+**Bad Examples:**
+```
+fix stuff
+```
+*Problem: Completely uninformative about what was fixed*
+```
+Fixed the bug where users couldn't login sometimes
+```
+*Problem: No type, no scope, vague description, no details about root cause*
+```
+feat(api): Added new endpoint for getting user data and also updated the database schema to include last_login field and fixed a bug in the authentication middleware and updated dependencies ✨
+```
+*Problem: Multiple changes in one commit, run-on sentence, should be split*
+```
+WIP: working on new feature
+```
+*Problem: Work-in-progress commits shouldn't be pushed to shared branches*
+
+### 5.4 Branch Management Best Practices
+
+**Before Starting Work:**
+- Always pull latest changes from canary
+- Create appropriately named feature or fix branch
+- Keep branches focused on single feature or fix
+- Plan to complete and merge within 3-5 days maximum
+
+**During Development:**
+- Commit frequently with logical, atomic changes
+- Keep commits focused and single-purpose
+- Write clear commit messages as you go
+- Rebase regularly on canary to stay current
+- Push to remote regularly to back up work
+
+**Before Creating Pull Request:**
+- Rebase on latest canary to minimize conflicts
+- Squash fixup commits into logical commits
+- Review your own changes first (self-review)
+- Ensure all tests pass locally
+- Run linter and fix all issues
+- Update documentation if needed
+- Add/update tests for new functionality
+
+**Branch Naming Conventions:**
+
+| Branch Type | Pattern | Examples |
+|-------------|---------|----------|
+| Feature | `feature/descriptive-name` | `feature/oauth-login`, `feature/user-dashboard` |
+| Bug Fix | `fix/issue-description` | `fix/login-redirect-loop`, `fix/memory-leak` |
+| Hotfix | `hotfix/critical-issue` | `hotfix/payment-gateway-timeout`, `hotfix/security-patch` |
+| Release | `release/vX.Y` | `release/v2.0`, `release/v1.9.1` |
+| Experiment | `spike/hypothesis` or `experiment/idea` | `spike/redis-caching`, `experiment/new-ui-framework` |
+
+**Branch Lifetime Management:**
+
+| Branch Type | Maximum Lifetime | Action at Expiry |
+|-------------|-----------------|------------------|
+| Feature | 1 week | Break into smaller features or merge WIP |
+| Fix | 2-3 days | Prioritize completion or escalate blockers |
+| Hotfix | 4-8 hours | Deploy immediately or rollback |
+| Release | 1-2 weeks | Release or abandon and create new release branch |
+| Spike | 1-3 days | Document findings and delete |
+
+**Long-Running Branch Problems:**
+- Merge conflicts multiply over time
+- Code becomes stale and diverges from standards
+- Harder to review due to size
+- Blocks other dependent work
+- Increases risk of integration issues
+
+**Strategies for Large Features:**
+- Break into smaller, independently valuable pieces
+- Use feature flags to merge incomplete work safely
+- Create series of small PRs building toward goal
+- Maintain separate long-lived branch only when absolutely necessary
+- Rebase frequently to minimize divergence
+
+### 5.5 Merge Strategies
+
+Different situations call for different merge approaches:
+
+**Squash and Merge** (Primary Strategy for Feature Branches):
+
+Combines all commits from a feature branch into a single commit on the target branch.
+
+**Advantages:**
+- Clean, linear history on main branches
+- Each feature represented by one commit
+- Easy to revert entire features
+- No "fix typo" or "WIP" commits polluting history
+
+**When to Use:**
+- Merging feature branches to canary
+- Small to medium features (< 20 commits)
+- When commit history is messy or has many fixups
+- When individual commits aren't meaningful
+
+**Process:**
+1. Review all commits in the PR
+2. Write comprehensive squash commit message
+3. Include all relevant context and references
+4. Ensure message follows conventional commit format
+
+**Merge Commit** (For Hotfixes and Releases):
+
+Creates a merge commit that preserves all individual commits from the source branch.
+
+**Advantages:**
+- Preserves complete development history
+- Shows who made each change and when
+- Easy to track specific changes
+- Valuable for auditing and debugging
+
+**When to Use:**
+- Merging hotfix branches to stable
+- Merging release branches
+- When commit history tells important story
+- When individual commits need to be cherry-picked later
+
+**Rebase and Merge** (For Clean, Well-Structured Branches):
+
+Replays commits from feature branch onto target branch without merge commit.
+
+**Advantages:**
+- Completely linear history
+- Each commit stands on its own
+- No merge commit noise
+- Clean git log output
+
+**When to Use:**
+- Small, well-crafted PRs with clean commits
+- When each commit is logical and atomic
+- When commit messages are already excellent
+- Experienced developers maintaining high commit quality
+
+**Disadvantages:**
+- Requires discipline in commit crafting
+- Harder to revert entire features
+- Can hide when feature was actually merged
+
+**Merge Strategy Decision Tree:**
+```
+Is this a hotfix or release branch?
+├─ Yes → Use Merge Commit
+└─ No → Does the branch have clean, logical commits?
+    ├─ Yes → Use Rebase and Merge
+    └─ No → Use Squash and Merge (most common)
