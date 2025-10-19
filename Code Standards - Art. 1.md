@@ -600,7 +600,7 @@ Code formatting is not a matter of personal preference, it's a solved problem th
 
 | Language | Primary Formatter | Configuration File | Line Length | Indentation |
 | -------- | ----------------- | ------------------| ----------- | ---------- |
-| TypeScript/JavaScript | Prettier | .prettierrc.json | 100 chars | 2 spaces |
+| TypeScript/JavaScript | Prettier | biome.json | 100 chars | 2 spaces |
 | Python | Black + isort | pyproject.toml | 100 chars | 4 spaces (PEP 8) |
 | Rust | rustfmt | rustfmt.toml | 100 chars | 4 spaces |
 | C++ | clang-format | .clang-format | 100 chars | 2 spaces |
