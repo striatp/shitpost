@@ -61,8 +61,12 @@ We use Git for version control and follow a consistent workflow. We use branches
 ### 6. Code Review & Collaboration
 Reviews ensure correctness and maintainability across all projects. We use [GitHub Actions](https://github.com/features/actions) with the help of human reviewers to ensure code quality and consistency. Pull requests must be small, documented, and tested before merging. All merges require approval and [CI](https://en.wikipedia.org/wiki/Continuous_integration) validation.
 
+---
+
 ### 7. Testing & Quality Assurance
 We use a variety of testing frameworks and tools to ensure code quality and maintainability. We use unit tests, integration tests, and end-to-end tests to ensure code correctness and reliability. We also use code coverage tools to ensure code coverage and maintainability. We follow a consistent testing workflow and use a consistent naming convention for tests.
+
+---
 
 ### 8. Documentation Standards
 We enforce a consistent documentation style and formatting across all projects. We use tools like [Markdownlint](https://github.com/DavidAnson/markdownlint) and [Markdown-Style-Guide](https://google.github.io/styleguide/docguide/style.html) to ensure documentation consistency and readability. We also use a consistent naming convention for documentation files and sections.
