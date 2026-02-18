@@ -5,7 +5,7 @@
   "homepage": "",
   "releases": {
     "windows-x64": {
-      "url": "https://github.com/striatp/shitpost/releases/download/v1.0.1/forge.zip",
+      "url": "https://github.com/striatp/shitpost/releases/download/v1.0.2/forge.zip",
       "sha256": "af40f28d26fc11263cb1e5cb4a1138e059f75d75c31a8153869ef85d4700b818",
       "archiveType": "zip",
       "binPath": "forgecli/bin"
